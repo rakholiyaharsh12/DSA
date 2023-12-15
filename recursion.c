@@ -1,38 +1,86 @@
 #include <stdio.h>
 
-int binarysearch(int a[], int low, int high, int ele)
-{
-    if (high >= low)
-    {
-        int mid = low + (high - low) / 2;
+int arr[20] = {10,23,21,25,76,43,2,12,35,66}, a = 0, b = 0;
 
-        if (a[mid] == ele)
+int binary_search(int n, int min, int max)
+{
+    int mid;
+    mid = (max + min) / 2;
+
+    if (mid >= 0 && mid < 11)
+    {
+
+        if (a == mid)
         {
-            return mid;
+            b++;
+            if (b > 3)
+            {
+                return -1;
+            }
         }
-        if (a[mid] > ele)
+
+        if (n == arr[mid])
         {
-            return binarysearch(a, low, mid - 1, ele);
+            return 1;
         }
-        return binarysearch(a, mid + 1, high, ele);
+        else if (n > arr[mid])
+        {
+            min = mid + 1;
+
+            a = mid;
+            mid = (max + min) / 2;
+            return binary_search(n, min, max);
+        }
+        else if (n < arr[mid])
+        {
+            max = mid - 1;
+
+            a = mid;
+            mid = (max + min) / 2;
+            return binary_search(n, min, max);
+        }
     }
-    return -1;
+    else
+    {
+        return -1;
+    }
 }
 
 int main()
 {
-    int arr[6] = {5, 10, 15, 20, 25, 30};
-    int size = 6;
-    int find = 25;
-    int res = binarysearch(arr, 0, size - 1, find);
+    int i, k, j, mid, min, max, x, result;
 
-    if (res == -1)
+    printf("Enter digit To find in array ");
+    scanf("%d", &x);
+
+    for (i = 0; i <= 9; i++)
     {
-        printf("Element %d not found", find);
+        for (j = 9; j >= i + 1; j--)
+        {
+            if (arr[i] > arr[j])
+            {
+                arr[j] = arr[i] + arr[j]; 
+                arr[i] = arr[j] - arr[i]; 
+                arr[j] = arr[j] - arr[i]; 
+            }
+        }
     }
-    else
+    for (i = 0; i <= 9; i++)
     {
-        printf("Element %d found at %d index", find, res);
+        printf("%d ", arr[i]);
     }
-  return 0;
+    min = 0;
+    max = 9;
+
+    result = binary_search(x, min, max);
+
+    if (result == 1)
+    {
+        printf(" \n%d is present in an Array", x);
+    }
+    else if (result == -1)
+    {
+        printf(" \n%d is not present in Array", x);
+    }
+     return 0;
 }

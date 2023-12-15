@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include<conio.h>
-
+ 
 
 int search (int x, int min , int max)
 {
