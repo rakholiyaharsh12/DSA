@@ -47,7 +47,7 @@ int main()
     for (i = 0; i < n; i++)
         a[i] = rand() % 100 + 1;
 
-     print(a);
+    print(a);
     Quicksort(a, 0, n - 1);
     printf("\nAfter Quick sort: ");
     print(a);
