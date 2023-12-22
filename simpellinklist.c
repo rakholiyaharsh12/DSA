@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 struct node
 {
     int data;
     struct node *next;
+    struct node *prev;
 };
+
 struct node *head = NULL;
 void insertend(int val)
 {
@@ -12,6 +15,7 @@ void insertend(int val)
     struct node *temp = malloc(sizeof(struct node));
     temp->data = val;
     temp->next = NULL;
+    temp->prev = NULL;
 
     if (head == NULL)
     {
@@ -23,8 +27,10 @@ void insertend(int val)
         ptr = ptr->next;
     }
     ptr->next = temp;
+    temp->prev = ptr;
     return;
 }
+
 void deleteEnd()
 {
     struct node *ptr = head, *p;
@@ -49,26 +55,40 @@ void deleteEnd()
     }
     return;
 }
+
 void insertfirst(int val)
 {
     struct node *temp = malloc(sizeof(struct node));
     temp->data = val;
     temp->next = head;
+    temp->prev = NULL;
+    if (head != NULL)
+    {
+        head->prev = temp;
+    }
     head = temp;
 }
+
 void deletefirst()
 {
     struct node *ptr = head;
     head = ptr->next;
+    if (head != NULL)
+    {
+        head->prev = NULL;
+    }
     free(ptr);
 }
+
 void insertmid(int val, int position)
 {
     struct node *ptr = head, *p;
     struct node *temp = malloc(sizeof(struct node));
-    int i = 1;
+    int i = 0;
 
     temp->data = val;
+    temp->next = NULL;
+    temp->prev = NULL;
 
     while (i < position)
     {
@@ -77,9 +97,15 @@ void insertmid(int val, int position)
         ptr = ptr->next;
     }
     temp->next = ptr;
+    temp->prev = p;
     p->next = temp;
+    if (ptr != NULL)
+    {
+        ptr->prev = temp;
+    }
     return;
 }
+
 void deletmid(int pos)
 {
     struct node *ptr = head;
@@ -91,6 +117,10 @@ void deletmid(int pos)
         ptr = ptr->next;
     }
     prev->next = ptr->next;
+    if (ptr->next != NULL)
+    {
+        ptr->next->prev = prev;
+    }
     free(ptr);
     return;
 }
@@ -120,13 +150,12 @@ int main()
     insertend(300);
     insertend(400);
     insertend(500);
-
+    insertend(600);
     deleteEnd();
+    insertfirst(50);
     deletefirst();
+    insertmid(599, 4);
     deletmid(300);
 
-    insertfirst(50);
-    insertmid(599, 2);
-
-    display();
+  display();
 }
